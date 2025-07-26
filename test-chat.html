@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test chat</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>test chat</h1>
+    <h2 id="welcome"></h2>
+    <div id="chat">
+        <div id="chat-body" class="chat-body">
+            <div id="chat-them"></div>
+            <div id="chat-me"></div>
+        </div>
+        <div id="chat-input">
+            <input type="text" id="chat-input-text">
+            <button id="chat-input-button">Send</button>
+        </div>
+    </div>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script>
+    const socket = io('http://127.0.0.1:8080');
+    let sid;
+
+    socket.on('connect', () => {
+        console.log('Connected to server');
+        sid = socket.id;
+        document.getElementById('welcome').innerHTML = `Welcome ${sid}`;
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+    });
+
+    socket.on('broadcast_message', (message) => {
+        const parsedMessage = JSON.parse(message);
+        const chatThem = document.getElementById('chat-them');
+        const chatMe = document.getElementById('chat-me');
+        let div = chatThem;
+        let otherDiv = chatMe;
+        let styleClass = 'chat';
+        if (parsedMessage.author === sid) {
+            div = chatMe;
+            otherDiv = chatThem;
+            styleClass = 'chat-me';
+        }
+        htmlstr =
+            `<div class="${styleClass}" style="display: flex; flex-direction: column; margin: 10px;">
+                <div style="display: flex; justify-content: space-between;">
+                    <div><h1>${parsedMessage.author}</h1></div>
+                    <div><h6>${parsedMessage.time}</h6></div>
+                </div>
+                <div>
+                    <h2>${parsedMessage.content}</h2>
+                </div>
+            </div>`;
+        const chatDiv = document.createElement('div');
+        const emptyChatDiv = document.createElement('div');
+        chatDiv.innerHTML = htmlstr;
+        emptyChatDiv.innerHTML = htmlstr;
+        emptyChatDiv.style.opacity = 0;
+        div.appendChild(chatDiv);
+        otherDiv.appendChild(emptyChatDiv);
+    });
+
+    function sendMessage() {
+        const input = document.getElementById('chat-input-text');
+        const message = input.value.trim();
+        if (message) {
+            socket.emit('send_message', message);
+            input.value = '';
+        }
+    }
+
+    document.getElementById('chat-input-button').addEventListener('click', sendMessage);
+
+    document.getElementById('chat-input-text').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+</script>
+</body>
+</html>
