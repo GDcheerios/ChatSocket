@@ -1,8 +1,6 @@
 import socketio
 from flask import Flask
 
-from Message import Message
-
 
 class Server:
     def __init__(self, host='127.0.0.1', port=8080):
@@ -22,7 +20,7 @@ class Server:
 
         @self.sio.event
         def send_message(sid, data):
-            self.sio.emit('broadcast_message', Message(author=sid, content=data).to_json())
+            self.sio.emit('broadcast_message', data)
 
     def start(self):
         print(f"Server started at http://{self.host}:{self.port}")
