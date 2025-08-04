@@ -1,7 +1,7 @@
 import unittest
-from tests.test_client import TestClient
-from tests.test_message import TestMessage
-from tests.test_server import TestServer
+from ChatSocket.tests.test_client import TestClient
+from ChatSocket.tests.test_message import TestMessage
+from ChatSocket.tests.test_server import TestServer
 
 
 def suite():

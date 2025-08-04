@@ -1,7 +1,7 @@
 import unittest
 import threading
 import time
-from Server import Server
+from ChatSocket.Server import Server
 
 
 class TestServer(unittest.TestCase):

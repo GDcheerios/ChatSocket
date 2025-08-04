@@ -1,8 +1,8 @@
 import unittest
 import threading
 import time
-from Server import Server
-from Client import Client
+from ChatSocket.Server import Server
+from ChatSocket.Client import Client
 
 
 class TestClient(unittest.TestCase):

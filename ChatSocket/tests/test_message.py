@@ -1,6 +1,6 @@
 import unittest
 
-from Message import Message
+from ChatSocket.Message import Message
 
 
 class TestMessage(unittest.TestCase):
