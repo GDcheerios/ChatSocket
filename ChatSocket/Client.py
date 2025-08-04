@@ -1,7 +1,5 @@
 import socketio
 
-from Message import Message
-
 
 class Client:
     def __init__(self, username: str, host='http://127.0.0.1', port=8080):
