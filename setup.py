@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='ChatSocket',
-    version='1.0.2',
+    version='1.0.3',
     packages=['ChatSocket'],
     install_requires=['flask-socketio'],
     url='https://github.com/GDcheeriosYT/ChatSocket',
